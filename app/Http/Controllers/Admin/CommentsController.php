@@ -37,6 +37,11 @@ class CommentsController extends Controller
 
     public function store(StoreCommentRequest $request)
     {
+        $request->merge([
+            'commentable_id' => $request->input('post_id') ?? $request->input('video_id'),
+            'commentable_type' => $request->input('post_id') ? Post::class : Video::class,
+        ]);
+
         $comment = Comment::create($request->all());
 
         return redirect()->route('admin.comments.index');
@@ -50,13 +55,18 @@ class CommentsController extends Controller
 
         $videos = Video::all()->pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $comment->load('post', 'video');
+        $comment->load('commentable');
 
         return view('admin.comments.edit', compact('posts', 'videos', 'comment'));
     }
 
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
+        $request->merge([
+            'commentable_id' => $request->input('post_id') ?? $request->input('video_id'),
+            'commentable_type' => $request->input('post_id') ? Post::class : Video::class,
+        ]);
+
         $comment->update($request->all());
 
         return redirect()->route('admin.comments.index');
@@ -66,7 +76,7 @@ class CommentsController extends Controller
     {
         abort_if(Gate::denies('comment_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $comment->load('post', 'video');
+        $comment->load('commentable');
 
         return view('admin.comments.show', compact('comment'));
     }

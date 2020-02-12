@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Comment;
+use App\Rules\PostOrVideoRule;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +20,11 @@ class StoreCommentRequest extends FormRequest
     {
         return [
             'body' => [
-                'required'],
+                'required'
+            ],
+            'post_id' => [
+                'required_without:video_id', new PostOrVideoRule()
+            ],
         ];
     }
 }

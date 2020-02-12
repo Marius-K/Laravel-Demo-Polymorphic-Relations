@@ -29,10 +29,7 @@
                             {{ trans('cruds.comment.fields.body') }}
                         </th>
                         <th>
-                            {{ trans('cruds.comment.fields.post') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.comment.fields.video') }}
+                            Comment Object
                         </th>
                         <th>
                             &nbsp;
@@ -52,10 +49,8 @@
                                 {{ $comment->body ?? '' }}
                             </td>
                             <td>
-                                {{ $comment->post->title ?? '' }}
-                            </td>
-                            <td>
-                                {{ $comment->video->title ?? '' }}
+                                {{ get_class($comment->commentable) === \App\Post::class ? trans('cruds.comment.fields.post') : trans('cruds.comment.fields.video') }}:
+                                {{ $comment->commentable->title ?? '' }}
                             </td>
                             <td>
                                 @can('comment_show')

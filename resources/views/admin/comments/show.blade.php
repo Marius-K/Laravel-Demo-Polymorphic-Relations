@@ -33,18 +33,11 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.comment.fields.post') }}
+                            Comment Object
                         </th>
                         <td>
-                            {{ $comment->post->title ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.comment.fields.video') }}
-                        </th>
-                        <td>
-                            {{ $comment->video->title ?? '' }}
+                            {{ get_class($comment->commentable) === \App\Post::class ? trans('cruds.comment.fields.post') : trans('cruds.comment.fields.video') }}:
+                            {{ $comment->commentable->title ?? '' }}
                         </td>
                     </tr>
                 </tbody>

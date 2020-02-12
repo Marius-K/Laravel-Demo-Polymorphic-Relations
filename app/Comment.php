@@ -19,20 +19,15 @@ class Comment extends Model
 
     protected $fillable = [
         'body',
-        'post_id',
-        'video_id',
+        'commentable_id',
+        'commentable_type',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
 
-    public function post()
+    public function commentable()
     {
-        return $this->belongsTo(Post::class, 'post_id');
-    }
-
-    public function video()
-    {
-        return $this->belongsTo(Video::class, 'video_id');
+        return $this->morphTo();
     }
 }

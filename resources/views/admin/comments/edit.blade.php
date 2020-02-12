@@ -24,7 +24,7 @@
                 <label for="post_id">{{ trans('cruds.comment.fields.post') }}</label>
                 <select class="form-control select2 {{ $errors->has('post') ? 'is-invalid' : '' }}" name="post_id" id="post_id">
                     @foreach($posts as $id => $post)
-                        <option value="{{ $id }}" {{ ($comment->post ? $comment->post->id : old('post_id')) == $id ? 'selected' : '' }}>{{ $post }}</option>
+                        <option value="{{ $id }}" {{ (get_class($comment->commentable) === \App\Post::class && $comment->commentable ? $comment->commentable->id : old('post_id')) == $id ? 'selected' : '' }}>{{ $post }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('post'))
@@ -38,7 +38,7 @@
                 <label for="video_id">{{ trans('cruds.comment.fields.video') }}</label>
                 <select class="form-control select2 {{ $errors->has('video') ? 'is-invalid' : '' }}" name="video_id" id="video_id">
                     @foreach($videos as $id => $video)
-                        <option value="{{ $id }}" {{ ($comment->video ? $comment->video->id : old('video_id')) == $id ? 'selected' : '' }}>{{ $video }}</option>
+                        <option value="{{ $id }}" {{ (get_class($comment->commentable) === \App\Video::class && $comment->commentable ? $comment->commentable->id : old('video_id')) == $id ? 'selected' : '' }}>{{ $video }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('video'))
